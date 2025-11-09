@@ -12,13 +12,9 @@ except ImportError:
     from PyQt6.QtGui import QColor, QPainter, QPen, QFont, QPalette, QKeySequence, QShortcut
     from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout
 try:
-    from analysis.qrng_wrapper import QRNGStream
+    from analysis.qw import QRNGStream
 except ImportError:
-    class QRNGStream:
-        def next_bytes(self, n):
-            return os.urandom(n)
-        def source_name(self):
-            return "local stand-in"
+    from qw import QRNGStream
 
 WINDOW_MIN_W = 1200
 WINDOW_MIN_H = 700

@@ -27,9 +27,9 @@ except ImportError:
     def align(flags):
         return flags
 try:
-    from analysis.qrng_wrapper import QRNGStream
+    from analysis.qw import QRNGStream
 except ImportError:
-    from qrng_wrapper import QRNGStream
+    from qw import QRNGStream
 
 class QRNGAdapter:
     def __init__(self):

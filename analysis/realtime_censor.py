@@ -8,9 +8,9 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 from matplotlib.widgets import Button
 try:
-    from analysis.qrng_wrapper import QRNGStream
+    from analysis.qw import QRNGStream
 except ImportError:
-    from qrng_wrapper import QRNGStream
+    from qw import QRNGStream
 
 DRBG_PARAMS = {"window": 120, "margin": 0.15, "streak": 3}
 QRNG_PARAMS = {"window": 120, "margin": 0.50, "streak": 10 ** 9}

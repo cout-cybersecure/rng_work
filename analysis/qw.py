@@ -1,13 +1,7 @@
 import os
-import base64
 import json
-import random
-import time
 from urllib import request, parse, error
 from pathlib import Path
-
-ENC_KEY = "BhUkMioYPyw6RVcUHSM5PgdAHBMaWTQ6PjtcMzckPxFFABw/WRYeXg=="
-MASK = b"qrngmask"
 
 class QRNGStream:
     def __init__(self):
@@ -18,14 +12,11 @@ class QRNGStream:
         self.capture_data = None
         self.capture_pos = 0
         self.primary_url = os.environ.get("QRNG_URL")
-        self.primary_key = os.environ.get("QRNG_KEY") or self._decoded_key()
+        self.primary_key = os.environ.get("QRNG_KEY") or ""
         if not self.primary_url:
             self.mode = "cached qrng capture" if self.capture_path.exists() else "local stand-in"
         else:
             self.mode = "remote qrng"
-    def _decoded_key(self):
-        data = base64.b64decode(ENC_KEY)
-        return bytes([data[i] ^ MASK[i % len(MASK)] for i in range(len(data))]).decode()
     def source_name(self):
         return self.mode or "local stand-in"
     def next_bytes(self, n):
@@ -43,10 +34,12 @@ class QRNGStream:
             try:
                 produced = self._fetch_remote(need)
                 if produced:
+                    self.last_error = None
                     self.mode = "remote qrng"
                     return
             except Exception as exc:
                 self.last_error = exc
+                self.primary_url = None
         if self.capture_path.exists():
             if self.capture_data is None:
                 with self.capture_path.open("rb") as fh:
