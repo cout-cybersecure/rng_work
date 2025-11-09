@@ -5,7 +5,7 @@ Complete repository for a multipath-routing randomness study targeting Linux and
 ## Build
 
 ```bash
-mkdir -p build && cmake -S . -B build -DCMAKE_BUILD_TYPE=Release && cmake --build build -j && cp build/generator build/dispatcher build/backend build/predictor ./
+mkdir -p cmake && cmake -S . -B cmake -DCMAKE_BUILD_TYPE=Release && cmake --build cmake -j && cp cmake/generator cmake/dispatcher cmake/backend cmake/predictor ./
 ```
 
 ## Run Single Node

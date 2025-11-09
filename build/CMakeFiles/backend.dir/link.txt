@@ -1,1 +1,0 @@
-/usr/bin/c++  -Wall -Wextra -O3 -DNDEBUG CMakeFiles/backend.dir/src/backend.cpp.o CMakeFiles/backend.dir/src/util.cpp.o CMakeFiles/backend.dir/src/logging.cpp.o -o backend  -lpthread 

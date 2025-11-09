@@ -226,22 +226,10 @@ class StreamPanel(QWidget):
                 y = lag_rect.bottom() - (lag_values[i] / lag_max) * lag_rect.height()
                 painter.drawLine(QLineF(prev_point.x(), prev_point.y(), x, y))
                 prev_point = QPointF(x, y)
-        text_top = lag_rect.bottom() + margin
-        text_rect = rect.adjusted(margin, text_top, -margin, -margin)
-        painter.setPen(QPen(QColor(200, 210, 230)))
-        painter.setFont(QFont("Inter", 12))
-        metrics = self.state.metrics
-        summary = f"min {metrics['min']:3d}   max {metrics['max']:3d}   mean {metrics['mean']:.2f}   entropy {metrics['entropy']:.2f}   rate {self.state.byte_rate:.1f} B/s"
-        painter.drawText(text_rect.left(), text_rect.top() + 18, summary)
-        painter.drawText(text_rect.left(), text_rect.top() + 38, f"source {self.state.source_note}")
-        painter.drawText(text_rect.left(), text_rect.top() + 58, f"last16 {metrics['hex']}")
         painter.setFont(QFont("Inter", 14, QFont.Weight.Bold))
         if self.panel_type == "drbg" and self.state.structure_flag:
             painter.setPen(QPen(QColor(255, 90, 90)))
             painter.drawText(rect.adjusted(0, 10, -16, 0), align(ALIGN_RIGHT | ALIGN_TOP), "structure detected")
-        if self.panel_type == "qrng":
-            painter.setPen(QPen(QColor(110, 230, 150)))
-            painter.drawText(rect.adjusted(0, 10, -16, 0), align(ALIGN_RIGHT | ALIGN_TOP), "live")
 
 class AdversaryModel:
     def __init__(self, margin, window, enable_flag):
@@ -414,8 +402,13 @@ class MainWindow(QMainWindow):
         panels_layout = QHBoxLayout(panels_frame)
         panels_layout.setContentsMargins(0, 0, 0, 0)
         panels_layout.setSpacing(12)
+        self.panels_layout = panels_layout
+        self._panel_min_width = 360
+        self._panel_max_width = 16777215
         self.drbg_panel = StreamPanel(self.drbg_state, "drbg")
         self.qrng_panel = StreamPanel(self.qrng_state, "qrng")
+        self.drbg_panel.setMinimumWidth(self._panel_min_width)
+        self.qrng_panel.setMinimumWidth(self._panel_min_width)
         panels_layout.addWidget(self.drbg_panel)
         panels_layout.addWidget(self.qrng_panel)
         layout.addWidget(panels_frame, 1)
@@ -455,14 +448,21 @@ class MainWindow(QMainWindow):
         self._apply_mode()
     def _apply_mode(self):
         if self.mode == "drbg":
-            self.drbg_panel.show()
-            self.qrng_panel.hide()
+            self._set_panel_visibility(True, False)
         elif self.mode == "qrng":
-            self.drbg_panel.hide()
-            self.qrng_panel.show()
+            self._set_panel_visibility(False, True)
         else:
-            self.drbg_panel.show()
-            self.qrng_panel.show()
+            self._set_panel_visibility(True, True)
+
+    def _set_panel_visibility(self, drbg_visible, qrng_visible):
+        self.drbg_panel.setVisible(drbg_visible)
+        self.qrng_panel.setVisible(qrng_visible)
+        self.panels_layout.setStretch(0, 1 if drbg_visible else 0)
+        self.panels_layout.setStretch(1, 1 if qrng_visible else 0)
+        self.drbg_panel.setMinimumWidth(self._panel_min_width if drbg_visible else 0)
+        self.qrng_panel.setMinimumWidth(self._panel_min_width if qrng_visible else 0)
+        self.drbg_panel.setMaximumWidth(self._panel_max_width if drbg_visible else 0)
+        self.qrng_panel.setMaximumWidth(self._panel_max_width if qrng_visible else 0)
 
 def main():
     app = QApplication(sys.argv)

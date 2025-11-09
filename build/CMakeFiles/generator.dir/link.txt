@@ -1,1 +1,0 @@
-/usr/bin/c++  -Wall -Wextra -O3 -DNDEBUG CMakeFiles/generator.dir/src/generator.cpp.o CMakeFiles/generator.dir/src/util.cpp.o CMakeFiles/generator.dir/src/logging.cpp.o -o generator  -lpthread 
