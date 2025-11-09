@@ -1,0 +1,7 @@
+{
+  "cross_match_rate": 0.3439854253227816,
+  "cross_attacker_success_top1": 0.38800957436696554,
+  "cross_window_min_entropy_256": 1.452765919211396,
+  "best_shift_ns": 100000,
+  "samples_overlap": 694355
+}

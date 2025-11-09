@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -Wextra -O3 -DNDEBUG CMakeFiles/predictor.dir/src/predictor.cpp.o CMakeFiles/predictor.dir/src/util.cpp.o CMakeFiles/predictor.dir/src/logging.cpp.o -o predictor  -lpthread 

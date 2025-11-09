@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -Wextra -O3 -DNDEBUG CMakeFiles/dispatcher.dir/src/dispatcher.cpp.o CMakeFiles/dispatcher.dir/src/util.cpp.o CMakeFiles/dispatcher.dir/src/logging.cpp.o CMakeFiles/dispatcher.dir/src/rng.cpp.o -o dispatcher  -lpthread 

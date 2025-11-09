@@ -1,0 +1,9 @@
+{
+  "samples": 400000,
+  "paths": 3,
+  "acc_backoff": 0.43404,
+  "top2_backoff": 0.76089,
+  "attacker_success_top1": 0.43404,
+  "avg_observed_min_entropy_256": 1.45807048329758,
+  "avg_predicted_min_entropy_256": 1.5570524198725921
+}
